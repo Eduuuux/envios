@@ -1,5 +1,7 @@
 package envios.envios.service;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -13,6 +15,10 @@ public class PaqueteService {
 
     public Paquete findById(int id) {
         return paqueteRepository.findById(id);
+    }
+
+    public List<Paquete> findAll() {
+        return paqueteRepository.findAll();
     }
 
     public Paquete save(Paquete paquete) {

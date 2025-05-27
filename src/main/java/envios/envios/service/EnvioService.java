@@ -1,5 +1,7 @@
 package envios.envios.service;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -16,6 +18,9 @@ public class EnvioService {
     }
     public Envio save(Envio envio) {
         return envioRepository.save(envio);
+    }
+    public List<Envio> findAll() {
+        return envioRepository.findAll();
     }
 
     public Envio findByNumeroEnvio(int numeroEnvio) {
