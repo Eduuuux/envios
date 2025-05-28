@@ -40,7 +40,7 @@ public class PaqueteController {
         } else {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
-    } 
+    }
 
     @PostMapping("/crear")
     public ResponseEntity<?> createPaquete(@RequestBody Paquete paquete) {

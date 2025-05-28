@@ -1,16 +1,18 @@
 package envios.envios.model;
 
 public enum Estado {
-    EN_PROCESO,
-    ENVIADO,
-    RECIBIDO,
-    DESCONOCIDO; 
+    EN_PROCESO("EN PROCESO"),
+    ENVIADO("ENVIADO"),
+    RECIBIDO("RECIBIDO"),
+    DESCONOCIDO("DESCONOCIDO");
 
-    public static Estado fromString(String value) {
-        try {
-            return Estado.valueOf(value.toUpperCase());
-        } catch (IllegalArgumentException e) {
-            return Estado.DESCONOCIDO;
-        }
-}
+    private final String descripcion;
+
+    Estado(String descripcion) {
+        this.descripcion = descripcion;
+    }
+
+    public String getDescripcion() {
+        return descripcion;
+    }
 }

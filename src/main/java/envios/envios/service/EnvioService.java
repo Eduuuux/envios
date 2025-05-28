@@ -47,6 +47,15 @@ public class EnvioService {
         return null;
     }
 
+    public Envio deleteByIdEnvio(int id) {
+        Envio envio = envioRepository.findByIdEnvio(id);
+        if (envio != null) {
+            envioRepository.delete(envio);
+            return envio;
+        }
+        return null;
+    }
+
 
 
 
