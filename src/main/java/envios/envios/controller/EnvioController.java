@@ -26,7 +26,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 
 @RestController
-@RequestMapping("/envio")
+@RequestMapping("api/envio")
 public class EnvioController {
     @Autowired
     private EnvioService envioService;

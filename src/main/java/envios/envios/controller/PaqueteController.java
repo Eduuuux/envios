@@ -22,7 +22,7 @@ import org.springframework.web.bind.annotation.PutMapping;
 
 
 @RestController
-@RequestMapping("/paquete")
+@RequestMapping("api/paquete")
 public class PaqueteController {
     @Autowired
     private PaqueteService paqueteService;

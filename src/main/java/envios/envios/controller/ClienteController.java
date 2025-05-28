@@ -22,7 +22,7 @@ import org.springframework.web.bind.annotation.PutMapping;
 
 
 @RestController
-@RequestMapping("/cliente")
+@RequestMapping("api/cliente")
 public class ClienteController {
     @Autowired
     private ClienteRepository clienteRepository;
