@@ -10,11 +10,15 @@ import org.springframework.web.bind.annotation.RestController;
 
 import envios.envios.model.Paquete;
 import envios.envios.service.PaqueteService;
+
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.PutMapping;
+
+
 
 
 @RestController
@@ -53,7 +57,29 @@ public class PaqueteController {
     }
     }
 
-    
+    @PutMapping("actualizar/{id}")
+    public ResponseEntity<?> updatePaquete(@PathVariable int id, @RequestBody Paquete paquete) {
+        Paquete existingPaquete = paqueteService.findById(id);
+        if (existingPaquete != null) {
+            paquete.setId(id);
+            Paquete updatedPaquete = paqueteService.save(paquete);
+            return new ResponseEntity<>(updatedPaquete, HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>("El paquete no existe", HttpStatus.NOT_FOUND);
+        }
+    }
+
+    @DeleteMapping("eliminar/{idPaquete}")
+    public ResponseEntity<?> deletePaquete(@PathVariable int idPaquete) {
+        Paquete existingPaquete = paqueteService.findById(idPaquete);
+        if (existingPaquete != null) {
+            paqueteService.deleteById(idPaquete);
+            return new ResponseEntity<>("Paquete eliminado correctamente", HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>("El paquete no existe", HttpStatus.NOT_FOUND);
+        }
+    }
+        
 
 
     
