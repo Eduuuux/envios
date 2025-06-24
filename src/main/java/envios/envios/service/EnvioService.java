@@ -13,8 +13,8 @@ public class EnvioService {
     @Autowired
     private EnvioRepository envioRepository;
 
-    public Envio findById(int id) {
-        return envioRepository.findByIdEnvio(id);
+    public Envio findByIdEnvio(Long idEnvio) {
+        return envioRepository.findByIdEnvio(idEnvio);
     }
     public Envio save(Envio envio) {
         return envioRepository.save(envio);
@@ -27,33 +27,33 @@ public class EnvioService {
         return envioRepository.findByNumeroEnvio(numeroEnvio).stream().findFirst().orElse(null);
     }
     
-    public Envio updateByIdEnvio(int id, Envio envio) {
-        Envio existingEnvio = envioRepository.findByIdEnvio(id);
+    public Envio updateByIdEnvio(Long idEnvio, Envio envio) {
+        Envio existingEnvio = envioRepository.findByIdEnvio(idEnvio);
         if (existingEnvio != null) {
-            if (envio.getNumeroEnvio() != 0) {
-                existingEnvio.setNumeroEnvio(envio.getNumeroEnvio());
+            if (envio.getDireccionDestino() != null) {
+                existingEnvio.setDireccionDestino(envio.getDireccionDestino());
             }
             if (envio.getFechaEnvio() != null) {
                 existingEnvio.setFechaEnvio(envio.getFechaEnvio());
             }
-            if (envio.getCliente() != null) {
-                existingEnvio.setCliente(envio.getCliente());
+            if (envio.getFechaEntrega() != null) {
+                existingEnvio.setFechaEntrega(envio.getFechaEntrega());
             }
-            if (envio.getPaquete() != null) {
-                existingEnvio.setPaquete(envio.getPaquete());
+            if (envio.getEstado() != null) {
+                existingEnvio.setEstado(envio.getEstado());
             }
+
+
             return envioRepository.save(existingEnvio);
         }
         return null;
     }
 
-    public Envio deleteByIdEnvio(int id) {
-        Envio envio = envioRepository.findByIdEnvio(id);
+    public void deleteByIdEnvio(Long idEnvio) {
+        Envio envio = envioRepository.findByIdEnvio(idEnvio);
         if (envio != null) {
             envioRepository.delete(envio);
-            return envio;
         }
-        return null;
     }
 
 

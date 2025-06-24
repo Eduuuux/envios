@@ -8,9 +8,9 @@ import org.springframework.stereotype.Repository;
 import envios.envios.model.Envio;
 
 @Repository
-public interface EnvioRepository extends JpaRepository<Envio, Integer> {
+public interface EnvioRepository extends JpaRepository<Envio, Long> {
 
-    Envio findByIdEnvio(int idEnvio);
+    Envio findByIdEnvio(Long idEnvio);
 
     Envio save(Envio envio);
 

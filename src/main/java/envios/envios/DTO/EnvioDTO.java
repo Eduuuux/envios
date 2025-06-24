@@ -1,5 +1,6 @@
 package envios.envios.DTO;
 
+import envios.envios.model.Estado;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -8,12 +9,11 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class EnvioDTO {
-    private int idEnvio;
+    private Long idEnvio;
     private int numeroEnvio;
     private String direccionDestino;
     private String fechaEnvio;
     private String fechaEntrega;
-    private String estado;
-    private int paqueteId;
-    private int clienteId;
+    private Estado estado;
+
 }
