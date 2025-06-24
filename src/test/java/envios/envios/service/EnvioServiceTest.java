@@ -92,20 +92,54 @@ public class EnvioServiceTest {
 
     @Test
     void testUpdateByIdEnvio() {
-        Envio envioCreado = new Envio(1L, 12345, "123 Main St", "2023-10-01", "2023-10-10", Estado.EN_PROCESO);
-        Envio envioActualizado = new Envio(null, 12345, "456 Elm St", "2023-10-02", "2023-10-11", Estado.ENVIADO);
+        Envio envioCreado = new Envio();
+        envioCreado.setIdEnvio(1L);
+        envioCreado.setNumeroEnvio(12345);
+        envioCreado.setDireccionDestino("123 Main St");
+        envioCreado.setFechaEnvio("2023-10-01");
+        envioCreado.setFechaEntrega("2023-10-10");
+        envioCreado.setEstado(Estado.EN_PROCESO);
+
+        
+        Envio envioActualizado = new Envio();
+        envioActualizado.setIdEnvio(1L);
+        envioActualizado.setNumeroEnvio(12345);
+        envioActualizado.setDireccionDestino("456 Elm St");//cambio
+        envioActualizado.setFechaEnvio("2023-10-02");//cambio
+        envioActualizado.setFechaEntrega("2023-10-11");//cambio
+        envioActualizado.setEstado(Estado.ENVIADO);//cambio
+
         when(envioRepository.findByIdEnvio(1L)).thenReturn(envioCreado);
-        when(envioRepository.save(envioActualizado)).thenReturn(envioActualizado);
+        when(envioRepository.save(envioCreado)).thenReturn(envioActualizado);
 
         Envio resultado = envioService.updateByIdEnvio(1L, envioActualizado);
 
+        assertNotNull(resultado);
+        assertEquals(resultado, envioActualizado);
         assertEquals("456 Elm St", resultado.getDireccionDestino());
         assertEquals("2023-10-02", resultado.getFechaEnvio());
         assertEquals("2023-10-11", resultado.getFechaEntrega());
         assertEquals(Estado.ENVIADO, resultado.getEstado());
+        System.out.println("Envio actualizado: " + resultado);
         verify(envioRepository).findByIdEnvio(1L);
-        verify(envioRepository).save(envioCreado);
+        verify(envioRepository).save(envioActualizado);
     }
+    @Test
+    void testDeleteByIdEnvio() {
+        Envio envio = new Envio();
+        envio.setIdEnvio(1L);
+        envio.setNumeroEnvio(12345);
+        envio.setDireccionDestino("123 Main St");
+        envio.setFechaEnvio("2023-10-01");
+        envio.setFechaEntrega("2023-10-10");
+        envio.setEstado(Estado.EN_PROCESO);
+        when(envioRepository.findByIdEnvio(1L)).thenReturn(envio);
+        envioService.deleteByIdEnvio(1L);
+        verify(envioRepository).findByIdEnvio(1L);
+        verify(envioRepository).delete(envio);
+    }
+
 }
+
 
 
