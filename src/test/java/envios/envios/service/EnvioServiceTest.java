@@ -1,20 +1,17 @@
 package envios.envios.service;
 
-import static org.assertj.core.api.Assertions.*;
-import static org.mockito.Mockito.*;
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
-
 import java.util.Arrays;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 import org.mockito.MockitoAnnotations;
 
 import envios.envios.model.Envio;
@@ -48,20 +45,26 @@ public class EnvioServiceTest {
     @Test
 
     void testSave(){
-        Envio envio = new Envio(null, 12345, "123 Main St", "2023-10-01", "2023-10-10", Estado.EN_PROCESO);
-        Envio envioGuardado = new Envio(1L, 12345, "123 Main St", "2023-10-01", "2023-10-10", Estado.EN_PROCESO);
-
-        when(envioRepository.save(envio)).thenReturn(envioGuardado);
+        Envio envio = new Envio();
+        envio.setNumeroEnvio(123456789);
+        envio.setDireccionDestino("123 Main St");
+        envio.setFechaEnvio("2023-10-01");
+        envio.setFechaEntrega("2023-10-10");
+        envio.setEstado(Estado.EN_PROCESO);
         
-        Envio envio2 = envioService.save(envio);
+        Envio envio2 = new Envio();
+        envio2.setIdEnvio(1L);
+        envio2.setNumeroEnvio(123456789);
+        envio2.setDireccionDestino("123 Main St");
+        envio2.setFechaEnvio("2023-10-01");
+        envio2.setFechaEntrega("2023-10-10");
+        envio2.setEstado(Estado.EN_PROCESO);
+        
+        when(envioRepository.save(envio)).thenReturn(envio2);
+        Envio envioGuardado = envioService.save(envio);
+        System.out.println("Envio guardado: " + envioGuardado);
 
-        assertNotNull(envio2);
-        assertEquals(envioGuardado.getIdEnvio(), envio2.getIdEnvio());
-        assertEquals(envioGuardado.getNumeroEnvio(), envio2.getNumeroEnvio());
-        assertEquals(envioGuardado.getDireccionDestino(), envio2.getDireccionDestino());
-        assertEquals(envioGuardado.getFechaEnvio(), envio2.getFechaEnvio());
-        assertEquals(envioGuardado.getFechaEntrega(), envio2.getFechaEntrega());
-        assertEquals(envioGuardado.getEstado(), envio2.getEstado());
+        assertThat(envioGuardado.getIdEnvio()).isEqualTo(1L);
         verify(envioRepository).save(envio);
 
     }

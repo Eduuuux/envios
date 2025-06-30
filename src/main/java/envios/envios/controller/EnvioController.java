@@ -1,26 +1,25 @@
 package envios.envios.controller;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.hateoas.CollectionModel;
+import org.springframework.hateoas.EntityModel;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
-
-import envios.envios.DTO.EnvioDTO;
-//import envios.envios.model.Cliente;
-import envios.envios.model.Envio;
-//import envios.envios.repository.ClienteRepository;
-import envios.envios.service.EnvioService;
-
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+import envios.envios.assemblers.EnvioAssembler;
+import envios.envios.model.Envio;
+import envios.envios.service.EnvioService;
 
 
 
@@ -32,38 +31,55 @@ public class EnvioController {
     private EnvioService envioService;
 
     @Autowired
-    //private ClienteRepository clienteRepository;
+    private EnvioAssembler assembler;
 
     @GetMapping()
-public ResponseEntity<List<EnvioDTO>> getAll() {
-    List<Envio> envios = envioService.findAll();
-    if (!envios.isEmpty()) {
-        List<EnvioDTO> envioDTOs = envios.stream().map(envio -> {
-            EnvioDTO dto = new EnvioDTO();
-            dto.setIdEnvio(envio.getIdEnvio());
-            dto.setNumeroEnvio(envio.getNumeroEnvio());
-            //dto.setDireccionDestino(envio.getCliente().getDireccionCliente());
-            dto.setFechaEntrega(envio.getFechaEntrega().toString());
-            dto.setEstado(envio.getEstado());
-            //dto.setPaqueteId(envio.getPaquete().getId());
-            //dto.setClienteId(envio.getCliente().getId());
-            return dto;
-        }).toList();
-        return new ResponseEntity<>(envioDTOs, HttpStatus.OK);
-    } else {
-        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        public ResponseEntity<CollectionModel<EntityModel<Envio>>> getAll() {
+        List<Envio> envios = envioService.findAll();
+        if (!envios.isEmpty()) {
+            List<EntityModel<Envio>> envioModels = envios.stream()
+                    .map(assembler::toModel)
+                    .collect(Collectors.toList());
+            CollectionModel<EntityModel<Envio>> collectionModel = CollectionModel.of(envioModels);
+            return ResponseEntity.ok(collectionModel);
+        } else {
+            return ResponseEntity.noContent().build();
+        }
     }
-}
-
     @GetMapping("/{idEnvio}")
-    public ResponseEntity<Envio> getById(@PathVariable Long idEnvio) {
-    Envio envio = envioService.findByIdEnvio(idEnvio);
-    if (envio != null) {
-        return new ResponseEntity<>(envio, HttpStatus.OK);
-    } else {
-        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        public ResponseEntity<EntityModel<Envio>> getById(@PathVariable Long idEnvio) {
+            Envio envio = envioService.findByIdEnvio(idEnvio);
+            if (envio != null) {
+                return ResponseEntity.ok(assembler.toModel(envio));
+            } else {
+                return ResponseEntity.noContent().build();
+            }
     }
-    }
+
+    
+    // public ResponseEntity<List<EnvioDTO>> getAll() {
+    //     List<Envio> envios = envioService.findAll();
+    //     if (!envios.isEmpty()) {
+    //         List<EnvioDTO> envioDTOs = envios.stream().map(envio -> {
+    //             EnvioDTO dto = new EnvioDTO();
+    //             dto.setIdEnvio(envio.getIdEnvio());
+    //             dto.setNumeroEnvio(envio.getNumeroEnvio());
+    //             //dto.setDireccionDestino(envio.getCliente().getDireccionCliente());
+    //             dto.setFechaEntrega(envio.getFechaEntrega().toString());
+    //             dto.setEstado(envio.getEstado());
+    //             //dto.setPaqueteId(envio.getPaquete().getId());
+    //             //dto.setClienteId(envio.getCliente().getId());
+    //             return dto;
+    //         }).toList();
+    //         return new ResponseEntity<>(envioDTOs, HttpStatus.OK);
+    //     } else {
+    //         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+    //     }
+    // }
+
+
+
+
 
     @GetMapping("/buscar/{numeroEnvio}")
     public ResponseEntity<Envio> getByNumeroEnvio(@PathVariable int numeroEnvio) {
@@ -74,9 +90,6 @@ public ResponseEntity<List<EnvioDTO>> getAll() {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
 }
-    public String getMethodName(@RequestParam String param) {
-        return new String();
-    }
     
 
     // CREAR CON PAQUETE Y USUARIO
