@@ -18,7 +18,12 @@ public class EnvioAssembler implements RepresentationModelAssembler<Envio, Entit
     public EntityModel<Envio> toModel(Envio envio) {
         return EntityModel.of(envio,
             linkTo(methodOn(EnvioController.class).getById(envio.getIdEnvio())).withSelfRel(),
-            linkTo(methodOn(EnvioController.class).getAll()).withRel("envios")
+            linkTo(methodOn(EnvioController.class).getAll()).withRel("envios"),
+            linkTo(methodOn(EnvioController.class).createEnvio(null)).withRel("create"),
+            linkTo(methodOn(EnvioController.class).updateEnvio(envio.getIdEnvio(), null)).withRel("update"),
+            linkTo(methodOn(EnvioController.class).updateEnvioPorNumero(envio.getNumeroEnvio(), null)).withRel("updateByNumero"),
+            linkTo(methodOn(EnvioController.class).deleteEnvio(envio.getIdEnvio())).withRel("delete"),
+            linkTo(methodOn(EnvioController.class).getByNumeroEnvio(envio.getNumeroEnvio())).withRel("findByNumero")
         );
     }
 }

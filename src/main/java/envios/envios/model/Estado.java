@@ -12,7 +12,5 @@ public enum Estado {
         this.descripcion = descripcion;
     }
 
-    public int getDescripcion() {
-        return descripcion;
-    }
+
 }

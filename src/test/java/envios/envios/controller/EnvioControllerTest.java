@@ -68,11 +68,11 @@ public class EnvioControllerTest {
     
     mockMvc.perform(get("/api/envio"))
         .andExpect(status().isOk())
-        .andExpect(jsonPath("$._embedded.entityModelList.length()").value(2))
-        .andExpect(jsonPath("$._embedded.entityModelList[0].numeroEnvio").value(1001))
-        .andExpect(jsonPath("$._embedded.entityModelList[0].direccionDestino").value("Calle 1, Ciudad A"))
-        .andExpect(jsonPath("$._embedded.entityModelList[1].numeroEnvio").value(1002))
-        .andExpect(jsonPath("$._embedded.entityModelList[1].direccionDestino").value("Calle 2, Ciudad B"));
+        .andExpect(jsonPath("$._embedded.envioList.length()").value(2))
+        .andExpect(jsonPath("$._embedded.envioList[0].numeroEnvio").value(1001))
+        .andExpect(jsonPath("$._embedded.envioList[0].direccionDestino").value("Calle 1, Ciudad A"))
+        .andExpect(jsonPath("$._embedded.envioList[1].numeroEnvio").value(1002))
+        .andExpect(jsonPath("$._embedded.envioList[1].direccionDestino").value("Calle 2, Ciudad B"));
     }
 
     @Test
