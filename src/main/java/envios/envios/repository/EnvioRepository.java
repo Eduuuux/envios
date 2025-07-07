@@ -16,6 +16,6 @@ public interface EnvioRepository extends JpaRepository<Envio, Long> {
 
     List<Envio> findAll();
 
-    List<Envio> findByNumeroEnvio(int numeroEnvio);
+    List<Envio> findByNumeroEnvio(String numeroEnvio);
 
 }

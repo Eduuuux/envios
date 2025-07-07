@@ -2,7 +2,6 @@ package envios.envios.model;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
-
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -29,7 +28,7 @@ public class Envio {
     private Long idEnvio;
 
     @Column(name = "numero_envio", nullable = false, unique = true, length = 20)
-    private int numeroEnvio;
+    private String numeroEnvio;
 
     @Column(name = "direccion_destino", nullable = false, length = 252)
     private String direccionDestino;
@@ -43,5 +42,15 @@ public class Envio {
     @Column(name = "estado", nullable = false)
     private Estado estado;
 
+    @Column(name = "cant_producto", nullable = false)
+    private int cantidadProducto;
 
+    @Column(name = "valorTotal", nullable = false)
+    private int valorTotal;
+
+    @Column(name = "id_cliente", nullable = false)
+    private int idCliente;
+
+    @Column(name = "id_producto", nullable = false)
+    private int idProducto;
 }
